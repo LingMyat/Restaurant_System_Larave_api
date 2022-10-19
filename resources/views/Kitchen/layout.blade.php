@@ -42,7 +42,7 @@
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      {{-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -51,7 +51,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> --}}
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -62,19 +62,27 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{ route('dish#index') }}" class="nav-link {{ Request::segment(1) == 'dish' ? 'active' : ''  }}">
-
                   <p>Dishes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('kitchen#orderList') }}" class="nav-link {{ Request::segment(1) != 'dish' ? 'active' : ''  }}">
-
+                <a href="{{ route('kitchen#orderList') }}" class="nav-link {{ Request::segment(2) == 'order' ? 'active' : ''  }}">
                   <p>Orders</p>
                 </a>
               </li>
               <li class="nav-item category_btn">
-                <a href="#" class="nav-link">
-                  <p>Create Category</p>
+                <a href="#"  class="nav-link {{ Request::segment(2) == 'category' ? 'active' : ''  }}">
+                  <p>Category</p>
+                </a>
+              </li>
+              <li class="nav-item table_btn">
+                <a href="#" class="nav-link ">
+                  <p>Tables</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('order#index') }}" class="nav-link ">
+                  <p>Check Waiter Panel</p>
                 </a>
               </li>
             </ul>
@@ -99,8 +107,20 @@
                         {{ $message }}
                     </span>
                 @enderror
-                <button class="btn float-right btn-primary" type="submit">+Create</button>
+                <a href="{{ route('kitchen#categoryList') }}" class="btn btn-link">Edit Category</a>
+                <button class="btn float-right btn-primary" type="submit">+Create Category</button>
             </form>
+        </div>
+    </div>
+    <div style="z-index: 100; width:240px;" class=" d-none shadow card bg-light position-absolute top-0 start-50 translate-middle-x" id="table_form">
+        <div class="card-body">
+            <label class="" for="">Add Tables </label>
+            <div class="d-flex gap-2">
+                <button class=" btn btn-warning minus-btn"><i class="fa-solid fa-minus"></i></button>
+                <input class=" w-25 form-control qty" type="text" value="1">
+                <button class=" btn btn-warning plus-btn"><i class="fa-solid fa-plus"></i></button>
+                <button class="btn btn-primary add_btn">Add</button>
+            </div>
         </div>
     </div>
     <!-- Content Header (Page header) -->
@@ -168,8 +188,37 @@
 @yield('script')
 <script>
     $(document).ready(function(){
+        let input = document.getElementsByClassName('qty')[0];
+        $toogle = function(para){
+            para.toggleClass('d-none');
+        }
         $('.category_btn').click(function(){
-            $('#category_form').toggleClass('d-none');
+            $toogle($('#category_form'))
+        })
+        $('.table_btn').click(function(){
+            $toogle($('#table_form'))
+        })
+        $('.plus-btn').click(function(){
+            input.value = Number(input.value) + 1;
+        })
+        $('.minus-btn').click(function(){
+            if (input.value == 0) {
+                return
+            }
+            input.value = Number(input.value) - 1;
+        })
+        $('.add_btn').click(function(){
+            $.ajax({
+                type : 'get',
+                url : '/kitchen/table/add',
+                data : {'qty' : Number(input.value)},
+                dataType : 'json',
+                success : function(response){
+                    if (response.status == 'success') {
+                        location.reload();
+                    }
+                }
+            })
         })
     })
 </script>

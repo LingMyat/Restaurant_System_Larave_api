@@ -16,7 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-
+        if (auth()->user()->role == 'waiter' ) {
+            return back();
+        }
         return $next($request);
     }
 }

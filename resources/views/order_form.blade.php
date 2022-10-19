@@ -22,11 +22,16 @@
 <body>
     <div class="container">
             <div class=" d-flex justify-content-between m-2">
-                <h3>User Pannel</h3>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button class=" btn btn-success" type="submit">Logout</button>
-                </form>
+                <h3>Waiter Pannel</h3>
+                <div class="">
+                    <a href="{{ route('dish#index') }}" class="{{ auth()->user()->role === 'waiter' ? 'd-none' : '' }}">
+                        <button class=" btn btn-danger "> Back to kitchen</button>
+                    </a>
+                    <form class=" d-inline-block" action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button class=" btn btn-success" type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
             <div class="">
                 <div class="row">
@@ -51,7 +56,7 @@
                                         @foreach ($dishes as $dish)
                                             <div class="col col-3 mb-3">
                                                 <div class="card">
-                                                    <img src="{{ asset('storage/'.$dish->image) }}" class="card-img-top" alt="...">
+                                                    <img style="width:260px ; height:194.74px;" src="{{ asset('storage/'.$dish->image) }}" class="card-img-top" alt="...">
                                                     <div class="card-body">
                                                     <h5 class="card-title mb-2">{{ $dish->name }}-{{ $dish->price }}ks</h5>
                                                     <input class=" form-control" name="{{ $dish->id }}" type="number">

@@ -33,8 +33,33 @@ class KitchenController extends Controller
         return to_route('kitchen#orderList');
     }
 
+    public function categoryList(){
+        $categories = Category::all();
+        return view('Kitchen.categoryList',compact('categories'));
+    }
+
     public function categoryCreate(CategoryRequest $request){
         Category::create($request->validated());
-        return to_route('dish#index');
+        return to_route('kitchen#categoryList');
+    }
+
+    public function categoryUpdate(Request $request){
+        Category::where('id',$request->id)->update(['name'=>$request->name]);
+        return response()->json(['status'=>'success'],200);
+    }
+
+    public function categoryDelete(Category $id){
+        $id->delete();
+        return to_route('kitchen#categoryList');
+    }
+
+    public function addTables(Request $request){
+        $table = Table::orderBy('id', 'desc')->first();
+        $currentTable = $table->name;
+        for ($i=0; $i < $request->qty ; $i++) {
+            $currentTable += 1;
+            Table::create(['name'=>$currentTable]);
+        };
+        return response()->json(['status'=>'success'],200);
     }
 }
