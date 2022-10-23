@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\DishRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CategoryRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
 {
@@ -27,12 +28,29 @@ class ApiController extends Controller
     }
     //create Dish
     public function createDish(DishRequest $request){
-        Dish::create($request->validated());
+        $validated = $request->validated();
+        if ($request->hasFile('image')) {
+            $imgName = uniqid().$request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public',$imgName);
+            $validated['image'] = $imgName;
+        }
+        Dish::create($validated);
         return response()->json($request->all(),201);
     }
     //update Dish
     public function updateDish(Dish $id,DishRequest $request){
-        $id->update($request->validated());
+        $validated = $request->validated();
+        if ($request->hasFile('image')) {
+            $imgName = uniqid().$request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public',$imgName);
+            $validated['image'] = $imgName;
+            if($id->image != Null){
+                Storage::delete('public/'.$id->image);
+            }
+        } else {
+            $validated['image'] = $id->image;
+        }
+        $id->update($validated);
         return response()->json(['status'=>'success'],201);
     }
     //delete Dish

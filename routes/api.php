@@ -24,8 +24,8 @@ Route::controller(ApiController::class)
     // Dish api
     Route::get('dishes','dishes');
     Route::get('dishes/{id}','showDish');
-    Route::post('dishes/create','createDish');//you need to fill name/category_id/price
-    Route::post('dishes/update/{id}','updateDish');//you need to fill name/category_id/price
+    Route::post('dishes/create','createDish');//you need to fill name/category_id/price/image
+    Route::post('dishes/update/{id}','updateDish');//you need to fill name/category_id/price/image
     Route::get('dishes/delete/{id}','deleteDish');
 
     // User api
