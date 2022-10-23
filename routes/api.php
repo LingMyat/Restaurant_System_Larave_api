@@ -43,5 +43,23 @@ Route::controller(ApiController::class)
 
     //Table api
     Route::get('tables','tables');
-    Route::post('tables/add','addTables');
+    Route::get('tables/avaliable','avaliableTable');
+    Route::post('tables/add','addTables');//you need to faill quantity of tables that you want to add
+
+    //Order api
+    Route::get('orders','orders');
+    Route::get('orders/group','orderGroup');
+    Route::post('orders/add','addOrder');
+    //Add Order api documentation
+    //If you put some order your order must be contain dish id and qunatity
+    //Define Dish id as key and Order id as value
+    //and must be contain avaliable Table id
+    Route::post('orders/ready','readyOrder');
+    Route::post('orders/serve','serveOrder');
+    Route::post('orders/billing','billingOrder');
+    // Order api documentation
+    // first order need to prepare making dishs of order
+    // after making dishes order is ready(you can call order ready api)
+    // then waiter can serve order to the dealing table(you can call order serve api)
+    // after all done the customer billing the order(you can call order billing api)
 });
