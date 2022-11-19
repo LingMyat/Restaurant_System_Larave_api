@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(ApiController::class)
+->middleware('auth:sanctum')
 ->group(function(){
     // Dish api
     Route::get('dishes','dishes');
@@ -31,7 +33,6 @@ Route::controller(ApiController::class)
     // User api
     Route::get('users','users');
     Route::get('users/{id}','showUser');
-    Route::post('users/register','createUser');//you need to fill name/email/password
     Route::get('users/delete/{id}','deleteUser');
 
     // Category api
@@ -63,4 +64,9 @@ Route::controller(ApiController::class)
     // then waiter can serve order to the dealing table(you can call order serve api)
     // after all done the customer billing the order(you can call order billing api)
     // ready/serve/billing all method need to fill order_id
+});
+Route::post('users/register',[ApiController::class,'createUser']);//you need to fill name/email/password
+Route::controller(AuthenticatedSessionController::class)
+->group(function(){
+    Route::post('login','store');
 });
