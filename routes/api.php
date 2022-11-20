@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\UserController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
@@ -21,8 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(ApiController::class)
-// ->middleware('auth:sanctum')
+->middleware('auth:sanctum')
 ->group(function(){
+
+    Route::post('logout','logout');
     // Dish api
     Route::get('dishes','dishes');
     Route::get('dishes/{id}','showDish');
@@ -66,4 +69,7 @@ Route::controller(ApiController::class)
     // ready/serve/billing all method need to fill order_id
 });
 Route::post('users/register',[ApiController::class,'createUser']);//you need to fill name/email/password
+Route::post("login",[UserController::class,'index']);
+// Route::get()
+
 

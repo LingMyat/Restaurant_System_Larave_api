@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\DishRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\CategoryRequest;
+use App\Models\PersonalAccessToken;
 use Illuminate\Support\Facades\Storage;
 
 class ApiController extends Controller
@@ -189,5 +190,13 @@ class ApiController extends Controller
         Table::where('id',$data->table_id)->first()->update(['avaliable'=>'1']);
         $data->delete();
         return response()->json(['status'=>'success'],204);
+    }
+    //logout
+    public function logout(Request $request){
+        PersonalAccessToken::where('id',explode('|',$request->token)[0])->delete();
+        $message = [
+            'status'=>'logout successful',
+        ];
+        return response()->json($message,200);
     }
 }

@@ -5,7 +5,7 @@
         <div class="container-fluid">
           <div class="row">
             @foreach ($orders as $order)
-                <div class="col col-4" id="parent">
+                <div class="col-12 col-md-4" id="parent">
                     <div class="card">
                         <div class="card-body">
                         <h5 class="card-title ">Table-{{ $order->table_id }}</h5>

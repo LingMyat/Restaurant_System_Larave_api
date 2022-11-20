@@ -6,6 +6,7 @@ use App\Models\Dish;
 use App\Models\Income;
 use App\Models\Order;
 use App\Models\Order_Group;
+use App\Models\PersonalAccessToken;
 use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
