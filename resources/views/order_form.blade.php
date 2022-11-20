@@ -35,7 +35,7 @@
             </div>
             <div class="">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="  col-12">
                       <div class="card card-primary card-outline card-outline-tabs">
                         <div class="card-header p-0 border-bottom-0">
                           <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
@@ -54,9 +54,9 @@
                                     @csrf
                                     <div class="row">
                                         @foreach ($dishes as $dish)
-                                            <div class="col col-3 mb-3">
-                                                <div class="card">
-                                                    <img style="width:260px ; height:194.74px;" src="{{ asset('storage/'.$dish->image) }}" class="card-img-top" alt="...">
+                                            <div class="col col-sm-6 col-md-4 col-lg-3 mb-3">
+                                                <div style="overflow: hidden" class="card">
+                                                    <img class="mx-auto" style="width:260px ; height:194.74px;" src="{{ asset('storage/'.$dish->image) }}" class="card-img-top" alt="...">
                                                     <div class="card-body">
                                                     <h5 class="card-title mb-2">{{ $dish->name }}-{{ $dish->price }}ks</h5>
                                                     <input class=" form-control" name="{{ $dish->id }}" type="number">
@@ -64,7 +64,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        <div class=" p-0 col offset-9 col-3">
+                                        <div class=" p-0 col-12 col-sm-5 offset-sm-7 offset-md-9 col-md-3">
                                         <label for="">Avaliable Tables</label>
                                         <select name="table_id" class=" form-select form-control mb-2">
                                             @foreach ($tables as $table)
@@ -72,14 +72,14 @@
                                             @endforeach
                                         </select>
                                         </div>
-                                    <button class="col offset-9 col-3 btn btn-success" type="submit">Order</button>
+                                    <button class="col-12 col-sm-5 offset-sm-7 offset-md-9 col-md-3 btn btn-success" type="submit">Order</button>
                                 </div>
                             </form>
                             </div>
                             <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                                 <div class="row">
                                     @foreach ($orders as $order)
-                                        <div class="col col-3" id="parent">
+                                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" id="parent">
                                             <div class="card">
                                                 <div class="card-body">
                                                 <h5 class="card-title ">Table-{{ $order->table_id }}</h5>
