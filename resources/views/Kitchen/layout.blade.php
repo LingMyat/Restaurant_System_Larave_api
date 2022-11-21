@@ -185,6 +185,7 @@
 
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+<script src = '{{ asset('js/jquery.js') }}'></script>
 @yield('script')
 <script>
     $(document).ready(function(){

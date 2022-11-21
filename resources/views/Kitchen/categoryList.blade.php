@@ -46,31 +46,6 @@
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,'pageLength':6,'searching':false
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
-      $('#create_Btn').click(function(){
-        $('#category_form').toggleClass('d-none');
-      })
-
-      $('.update_Btn').click(function(){
-        $parentNode = $(this).parents("tr");
-        $id = $parentNode.find('.id').val();
-        $name = $parentNode.find('.name').val();
-        console.log();
-        $.ajax({
-            type : 'get',
-            url : '/kitchen/category/update',
-            data : {
-                'id' : $id,
-                'name' : $name
-            },
-            dataType : 'json',
-            success : function(response){
-                if (response.status == 'success') {
-                    location.reload();
-                }
-            }
-        })
-      })
     });
   </script>
 @endsection
