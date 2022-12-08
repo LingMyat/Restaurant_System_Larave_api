@@ -1,10 +1,12 @@
 <?php
 
+use App\Test;
+use App\Container;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DishController;
-use App\Http\Controllers\KitchenController;
 use App\Http\Controllers\OrderController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KitchenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware('loginAuth')
 ->group(function(){
-    Route::redirect('/', 'loginPage')->name('auth#/');
+    // Route::redirect('/', 'loginPage')->name('auth#/');
     Route::controller(AuthController::class)->group(function(){
         Route::get('loginPage','loginPage')->name('auth#login');
         Route::get('registerPage','registerPage')->name('auth#register');
@@ -69,3 +71,25 @@ Route::middleware('loginAuth')
     });
 });
 
+Route::get('/container',function(){
+
+    $container = new Container();
+
+    $container->bind('test',function(){
+        return new Test();
+    });
+    $test = $container->resolve('test');
+
+    $container->bind('test2','This is test 2');
+    $test2 = $container->resolve('test2');
+
+
+   dd($test2);
+});
+
+Route::get('/real/container',function(Test $testclass){
+
+
+    $test = resolve('testClass');
+    dd($testclass->something());
+});
